@@ -26,32 +26,28 @@ ORDER by oder DESC;
 
 
 --- 5. Find the order id that has the maximum average product price. Your solution should include only one row with the order id and average product price. ---
-SELECT order_id, AVG(list_price) As Average
+SELECT TOP 1 order_id, AVG(list_price) As Average
 FROM sale.order_item
 GROUP BY order_id
-ORDER by order_id;
+ORDER by Average DESC;
 
 
 
 --- 6. Write a query that displays brand_id, product_id and list_price sorted first by brand_id (in ascending order), and then by list_price  (in descending order). ---
-
-
-
-
-
+SELECT brand_id, product_id, list_price
+FROM product.product
+ORDER BY brand_id, list_price DESC;
 
 --- 7. Write a query that displays brand_id, product_id and list_price, but this time sorted first by list_price (in descending order), and then by brand_id (in ascending order). ---
-
-
-
-
+SELECT brand_id, product_id, list_price
+FROM product.product
+ORDER BY list_price DESC, brand_id;
 
 
 --- 8. Compare the results of these two queries above. How are the results different when you switch the column you sort on first? (Explain it in your own words.) ---
-
-
-
-
+    -- #6 first sorts based on the value in brand_ID (from lowest to highest). 
+    -- If there are sevaral rows with the same brand_id then it sorts based on the values in list_price (from highest to lowest)
+    -- As for #6, it sorts the other way around. first based on list_price (descending) and then based on brand_id (ascending)
 
 
 --- 9. Write a query to pull the first 10 rows and all columns from the product table that have a list_price greater than or equal to 3000. ---
