@@ -20,7 +20,7 @@ GROUP BY customer_id
 
 
 --- 4. Find the total amount of each order. Your solution should include order id and total amount sorted from highest to lowest. ---
-SELECT order_id, SUM(quantity*list_price*(1-discount)) AS total_amount
+SELECT order_id, SUM(quantity*list_price*discount) AS total_amount
 FROM sale.order_item
 GROUP BY order_id
 ORDER by total_amount DESC;
