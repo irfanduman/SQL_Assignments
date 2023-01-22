@@ -38,17 +38,9 @@ LEFT JOIN T2 ON T1.customer_id = T2.customer_id;
 
 /* 2. Conversion Rate
     Below you see a table of the actions of customers visiting the website by clicking on two different types of advertisements 
-    given by an E-Commerce company. Write a query to return the conversion rate for each Advertisement type.
+    given by an E-Commerce company. Write a query to return the conversion rate for each Advertisement type.*/
 
-a. Create above table (Actions) and insert values,
-
-b. Retrieve count of total Actions and Orders for each Advertisement Type,
-
-c. Calculate Orders (Conversion) rates for each Advertisement Type 
-by dividing by total count of actions casting as float by multiplying by 1.0.*/
-
-
-
+-- a. Create above table (Actions) and insert values,
 CREATE TABLE Actions (
     Visitor_ID int,
     Adv_Type varchar(255),
@@ -69,7 +61,7 @@ VALUES
     (10,'A', 'Review');
 
 
-
+-- b. Retrieve count of total Actions and Orders for each Advertisement Type,
 SELECT Adv_Type, [Action], COUNT(Action) as count_of_action
 FROM Actions
 GROUP By Adv_Type, [Action]
@@ -77,7 +69,7 @@ ORDER BY Adv_Type, [Action];
 
 
 
-
+-- c. Calculate Orders (Conversion) rates for each Advertisement Type by dividing by total count of actions casting as float by multiplying by 1.0.
 WITH 
 T1 AS(
     SELECT Adv_Type, COUNT(Adv_Type) as total_visit
@@ -95,61 +87,5 @@ from T1
 join T2 on T1.Adv_Type=T2.Adv_Type;
 
 
-
-
-
-
-
-
-
-
-WITH T1 AS(
-    SELECT Adv_Type, [Action], COUNT(Action) as count_of_total_actions
-    FROM Actions
-    GROUP By Adv_Type, [Action]
-    --ORDER BY Adv_Type, [Action]
-)
-select 
-    sum(case Adv_Type when 'A' then count_of_total_actions else 0 end) as tot_type_A,
-    sum(case Adv_Type when 'B' then count_of_total_actions else 0 end) as tot_type_B
-from T1
-
-
-
-
-
-
-
-
-
-SELECT * INTO #TABLE1
-FROM
-( VALUES 			
-				(1,'A', 'Left'),
-				(2,'A', 'Order'),
-				(3,'B', 'Left'),
-				(4,'A', 'Order'),
-				(5,'A', 'Review'),
-				(6,'A', 'Left'),
-				(7,'B', 'Left'),
-				(8,'B', 'Order'),
-				(9,'B', 'Review'),
-				(10,'A', 'Review')
-			) A (visitor_id, adv_type, actions)
-WITH T1 AS
-(
-SELECT	adv_type, COUNT (*) cnt_action
-FROM	#TABLE1
-GROUP BY
-		adv_type
-), T2 AS
-(
-SELECT	adv_type, COUNT (actions) cnt_order_actions
-FROM	#TABLE1
-WHERE	actions = 'Order'
-GROUP BY
-		adv_type
-)
-SELECT	T1.adv_type, CAST (ROUND (1.0*T2.cnt_order_actions / T1.cnt_action, 2) AS numeric (3,2)) AS Conversion_Rate
-FROM	T1, T2
-WHERE	T1.adv_type = T2.adv_type
+-- Extra: Drop the 'Actions' table created for this assignment
+DROP TABLE Actions;
