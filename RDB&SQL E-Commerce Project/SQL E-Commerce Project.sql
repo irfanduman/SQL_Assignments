@@ -266,3 +266,6 @@ SELECT
     CAST(1.0 * customer_retained / total_monthly_customer as numeric(36,2)) AS Retantion_Rate
 FROM T2,T1
 WHERE T2.order_year=T1.next_visit_year AND T2.order_month=T1.next_visit_month;
+
+
+
